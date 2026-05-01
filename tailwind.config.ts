@@ -52,13 +52,12 @@ export default {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))'
                 },
-                // --- COLORES SMARTLOGIX CORREGIDOS ---
                 saas: {
-                    black: "#050505",    // Negro Underground
-                    blue: "#0066FF",     // Azul Eléctrico (Corregido)
-                    orange: "#F97316",   // Naranja Vibrante
-                    darkGray: "#1A1A1A", // Gris Oscuro para bordes
-                    white: "#FFFFFF",    // Blanco Puro para contraste
+                    black: "#050505",    
+                    blue: "#0066FF",     
+                    orange: "#F97316",   
+                    darkGray: "#1A1A1A", 
+                    white: "#FFFFFF",    
                 },
             },
             borderRadius: {
