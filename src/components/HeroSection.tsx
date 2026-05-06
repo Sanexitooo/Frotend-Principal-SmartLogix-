@@ -73,9 +73,6 @@ const HeroSection = () => {
                   alt="Interface dashboard preview"
                   className="rounded-xl w-full"
                 />
-                <div className="absolute bottom-4 left-4 bg-saas-orange/90 backdrop-blur-sm px-4 py-2 rounded-lg text-white text-sm font-bold shadow-lg">
-                  Panel de Control v.2.0
-                </div>
               </div>
             </div>
           </div>
