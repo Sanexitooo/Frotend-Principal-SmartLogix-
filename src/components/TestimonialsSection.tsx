@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const testimonials = [
   {
@@ -22,50 +24,102 @@ const testimonials = [
 ];
 
 const TestimonialsSection = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      next();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [currentIndex]);
+
   return (
-    <div className="bg-saas-black py-16 md:py-24">
-      <div className="section-container">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Empresas que <span className="gradient-text">Confían</span> en Nosotros
-          </h2>
-          <p className="text-gray-400">
-            No solo lo decimos nosotros. Esto es lo que nuestros clientes opinan sobre SmartLogix.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div 
-              key={index}
-              className="bg-gradient-to-b from-saas-darkGray to-saas-black border border-gray-800 rounded-xl p-6 card-shadow"
+    <section className="py-24 bg-saas-teal relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-saas-orange/10 rounded-full blur-[120px] -mr-64 -mt-64"></div>
+      
+      <div className="section-container relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="max-w-2xl text-left">
+            <span className="inline-block bg-saas-orange text-white px-4 py-1 rounded-lg text-sm font-bold mb-4 shadow-lg shadow-saas-orange/20">
+              # Testimonios
+            </span>
+            <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+              Empresas que <span className="text-saas-orange italic">Confían</span> en Nosotros
+            </h2>
+          </div>
+          
+          <div className="flex gap-3">
+            <button 
+              onClick={prev} 
+              className="p-4 rounded-xl border-2 border-white/10 text-white hover:bg-saas-orange hover:border-saas-orange transition-all duration-300 group"
             >
-              <div className="flex mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-saas-orange" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                  </svg>
-                ))}
-              </div>
-              
-              <p className="text-gray-300 mb-6 italic">"{testimonial.text}"</p>
-              
-              <div className="flex items-center">
+              <ChevronLeft className="group-hover:scale-110 transition-transform" />
+            </button>
+            <button 
+              onClick={next} 
+              className="p-4 rounded-xl border-2 border-white/10 text-white hover:bg-saas-orange hover:border-saas-orange transition-all duration-300 group"
+            >
+              <ChevronRight className="group-hover:scale-110 transition-transform" />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative min-h-[450px] md:min-h-[350px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+              className="bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-14 rounded-[2rem] shadow-2xl flex flex-col md:flex-row items-center gap-10"
+            >
+              <div className="relative shrink-0">
+                <div className="absolute inset-0 bg-saas-orange blur-2xl opacity-20 rounded-full"></div>
                 <img 
-                  src={testimonial.image}
-                  alt={testimonial.author}
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
+                  src={testimonials[currentIndex].image} 
+                  alt={testimonials[currentIndex].author}
+                  className="w-32 h-32 md:w-44 md:h-44 rounded-[2.5rem] object-cover border-4 border-saas-orange relative z-10 shadow-2xl"
                 />
+              </div>
+
+              <div className="flex-1 text-left">
+                <div className="flex mb-6 gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-6 h-6 fill-saas-orange text-saas-orange" />
+                  ))}
+                </div>
+                
+                <p className="text-xl md:text-2xl text-slate-100 font-medium leading-relaxed mb-8">
+                  "{testimonials[currentIndex].text}"
+                </p>
+                
                 <div>
-                  <p className="font-semibold text-white">{testimonial.author}</p>
-                  <p className="text-gray-400 text-sm">{testimonial.position}</p>
+                  <h4 className="text-2xl font-black text-white">{testimonials[currentIndex].author}</h4>
+                  <p className="text-saas-orange font-bold tracking-wide uppercase text-sm mt-1">
+                    {testimonials[currentIndex].position}
+                  </p>
                 </div>
               </div>
-            </div>
-          ))}
+            </motion.div>
+          </AnimatePresence>
+          
+          <div className="flex justify-center gap-2 mt-10">
+            {testimonials.map((_, i) => (
+              <div 
+                key={i}
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  i === currentIndex ? "w-8 bg-saas-orange" : "w-2 bg-white/20"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

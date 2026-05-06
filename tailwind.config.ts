@@ -54,10 +54,13 @@ export default {
                 },
                 saas: {
                     black: "#050505",    
-                    blue: "#0066FF",     
-                    orange: "#F97316",   
-                    darkGray: "#1A1A1A", 
+                    // Actualizado: Princeton Orange de la imagen
+                    orange: "#FF8400",   
+                    // Actualizado: Dark Teal de la imagen
+                    teal: "#0B4654",     
+                    // Mantenemos el blanco de fondo solicitado
                     white: "#FFFFFF",    
+                    darkGray: "#1A1A1A",
                 },
             },
             borderRadius: {
