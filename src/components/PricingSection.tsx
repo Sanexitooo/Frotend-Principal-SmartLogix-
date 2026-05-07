@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const PricingSection = () => {
-  const [isAnnual, setIsAnnual] = useState(true);
-  
   const plans = [
     {
       name: 'Plan Basic',
@@ -14,93 +12,81 @@ const PricingSection = () => {
       features: ['Gestión de inventario', 'Registro de pedidos', 'Optimización simple', 'Mapa en tiempo real', '1 usuario admin', 'Soporte estándar'],
       isPopular: false,
       ctaText: 'Comenzar ahora',
-      color: 'border-slate-700/50 hover:border-slate-400'
+      color: 'border-[#8B4513] border-4' 
     },
     {
       name: 'Plan E-Commerce',
       price: '45.000',
-      description: 'Nuestra solución más equilibrada para el crecimiento.',
+      description: 'Nuestra solución equilibrada para el crecimiento.',
       features: ['Todo lo del Plan Basic +', 'Integración eCommerce', 'Gestión automática', 'Optimización avanzada', 'Dashboard completo', 'Hasta 5 usuarios', 'Soporte prioritario'],
       isPopular: true,
       ctaText: 'Probar E-Commerce',
-      color: 'border-saas-orange/60 shadow-2xl shadow-saas-orange/10'
+      color: 'border-saas-orange border-4 shadow-2xl shadow-saas-orange/20'
     },
     {
       name: 'Plan Enterprise',
       price: '100.000',
-      description: 'Potencia máxima para operaciones de alta demanda.',
+      description: 'Potencia máxima para alta demanda.',
       features: ['Todo lo del Plan E-Commerce +', 'Optimización masiva', 'Gestión multi-bodega', 'Notificaciones push', 'Análisis de KPIs', 'Control de roles', 'Soporte 24/7'],
       isPopular: false,
       ctaText: 'Contactar Ventas',
-      color: 'border-saas-teal/50 hover:border-saas-teal'
+      color: 'border-slate-800'
     }
   ];
 
   return (
-    <section id="tarifas" className="bg-gradient-to-b from-saas-darkGray to-saas-black py-16 md:py-24 overflow-hidden">
+    <section id="tarifas" className="bg-white py-16 md:py-24 overflow-hidden">
       <div className="section-container relative">
-        <div className="text-center max-w-3xl mx-auto mb-16 relative z-10 text-white">
-          <h2 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
+        <div className="text-center max-w-4xl mx-auto mb-16 relative z-10">
+          <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter text-saas-teal leading-none">
             Nuestros <span className="text-saas-orange">Planes</span>
           </h2>
-          <p className="text-slate-400 mb-8 font-medium">Tarifas transparentes diseñadas para escalar junto a tu flota.</p>
-          
-          <div className="flex items-center justify-center space-x-6">
-            <span className={`text-xs font-black tracking-widest uppercase transition-colors ${isAnnual ? 'text-saas-orange' : 'text-slate-500'}`}>Anual</span>
-            <button 
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="relative inline-flex h-8 w-16 items-center rounded-full bg-slate-800 border border-white/10"
-            >
-              <motion.span 
-                animate={{ x: isAnnual ? 36 : 4 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="inline-block h-6 w-6 rounded-full bg-saas-orange shadow-lg" 
-              />
-            </button>
-            <span className={`text-xs font-black tracking-widest uppercase transition-colors ${!isAnnual ? 'text-saas-orange' : 'text-slate-500'}`}>Mensual</span>
-          </div>
+          <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">
+            Tarifas transparentes diseñadas para escalar junto a tu flota.
+          </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 items-stretch px-4 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div 
               key={index} 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`rounded-[2.5rem] p-10 border ${plan.color} bg-white/[0.03] backdrop-blur-md flex flex-col h-full transition-colors duration-300 ${
-                plan.isPopular ? 'bg-white/[0.08] scale-105 z-10' : ''
-              }`}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              whileHover={{ y: -10, transition: { duration: 0.2 } }}
+              className={`rounded-[2.5rem] p-8 bg-slate-950 flex flex-col h-full transition-all duration-300 shadow-xl hover:shadow-saas-orange/10 ${
+                plan.isPopular ? 'scale-105 z-10' : 'scale-95'
+              } ${plan.color}`}
             >
               {plan.isPopular && (
-                <div className="bg-saas-orange text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase mb-6 self-start tracking-widest">
+                <div className="bg-saas-orange text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase mb-4 self-start tracking-widest">
                   Recomendado
                 </div>
               )}
               
-              <h3 className="text-2xl font-black mb-2 text-white">{plan.name}</h3>
-              <p className="text-slate-400 text-xs mb-8 h-10">{plan.description}</p>
+              <h3 className="text-2xl font-black mb-2 text-white tracking-tighter">{plan.name}</h3>
+              <p className="text-slate-400 text-[11px] mb-6 h-8 font-medium leading-tight">{plan.description}</p>
               
-              <div className="mb-10 text-white">
+              <div className="mb-8 text-white">
                 <span className="text-5xl font-black tracking-tighter">${plan.price}</span>
-                <span className="text-slate-500 text-xs font-bold uppercase ml-2"> CLP</span>
+                <span className="text-slate-500 text-[10px] font-bold uppercase ml-1"> CLP</span>
               </div>
               
-              <ul className="space-y-4 mb-10 flex-1">
+              <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-center">
-                    <Check className="h-3 w-3 text-saas-orange mr-4 shrink-0" />
-                    <span className="text-slate-300 text-xs font-semibold">{feature}</span>
+                    <Check className="h-3.5 w-3.5 text-saas-orange mr-3 shrink-0" />
+                    <span className="text-slate-300 text-[11px] font-bold">{feature}</span>
                   </li>
                 ))}
               </ul>
               
               <Button 
-                className={`w-full py-8 font-black rounded-2xl uppercase text-[10px] tracking-widest ${
+                className={`w-full py-6 font-black rounded-xl uppercase text-[11px] tracking-widest transition-all ${
                   plan.isPopular 
                     ? 'bg-saas-orange hover:bg-orange-600 text-white shadow-lg shadow-saas-orange/20' 
-                    : 'bg-white/5 border border-white/10 hover:bg-white/10 text-white'
+                    : 'bg-white text-slate-950 hover:bg-slate-200'
                 }`}
               >
                 {plan.ctaText}

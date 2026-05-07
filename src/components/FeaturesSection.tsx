@@ -37,7 +37,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="bg-saas-black py-16 md:py-24 overflow-hidden">
+    <section className="bg-white py-16 md:py-24 overflow-hidden">
       <div className="section-container">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -46,15 +46,15 @@ const FeaturesSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+          <h2 className="text-3xl md:text-4xl font-black mb-4 text-saas-teal tracking-tighter">
             Funciones <span className="text-saas-orange">Potentes</span> para logística 
           </h2>
-          <p className="text-gray-400">
+          <p className="text-slate-500 font-medium">
             Optimiza operaciones y alcanza metas de transporte de manera eficiente con SmartLogix.
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
           {features.map((feature, index) => (
             <motion.div 
               key={index} 
@@ -62,13 +62,15 @@ const FeaturesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-saas-darkGray p-8 rounded-2xl border border-gray-800 hover:border-saas-orange/40 transition-all duration-300 group shadow-lg"
+              className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 hover:border-saas-orange/40 hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-300 group"
             >
-              <div className="bg-saas-orange/10 w-14 h-14 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                {feature.icon}
+              <div className="bg-white w-14 h-14 flex items-center justify-center rounded-2xl mb-6 shadow-sm group-hover:bg-saas-orange group-hover:text-white transition-all duration-300">
+                <div className="group-hover:text-white transition-colors">
+                  {feature.icon}
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-sm">{feature.description}</p>
+              <h3 className="text-xl font-black mb-3 text-saas-teal">{feature.title}</h3>
+              <p className="text-slate-500 leading-relaxed text-sm font-medium">{feature.description}</p>
             </motion.div>
           ))}
         </div>

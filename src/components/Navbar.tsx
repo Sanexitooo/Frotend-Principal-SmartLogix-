@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronRight, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Navbar = () => {
+interface NavbarProps {
+  onOpenLogin: () => void;
+}
+
+const Navbar = ({ onOpenLogin }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -21,6 +25,12 @@ const Navbar = () => {
     { name: "Contacto", href: "#contacto" }
   ];
 
+  const handleModalOpen = () => {
+    setIsLoginMode(true);
+    setIsModalOpen(true);
+    onOpenLogin();
+  };
+
   return (
     <>
       <nav 
@@ -33,7 +43,6 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center">
             
-            {/* Logo con Efecto */}
             <div className="flex-shrink-0">
               <a href="#" className="group flex items-center gap-2">
                 <div className="w-10 h-10 bg-saas-teal rounded-xl flex items-center justify-center rotate-3 group-hover:rotate-12 transition-transform duration-300 shadow-lg shadow-saas-teal/20">
@@ -45,7 +54,6 @@ const Navbar = () => {
               </a>
             </div>
 
-            {/* Desktop Menu - Glass Design */}
             <div className="hidden md:flex items-center bg-slate-100/50 backdrop-blur-md px-2 py-1.5 rounded-2xl border border-white/50">
               {navItems.map((item) => (
                 <a
@@ -58,13 +66,9 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Botón CTA */}
             <div className="hidden md:block">
               <button
-                onClick={() => {
-                  setIsLoginMode(true);
-                  setIsModalOpen(true);
-                }}
+                onClick={handleModalOpen}
                 className="group relative flex items-center gap-2 px-6 py-3 rounded-2xl bg-saas-teal text-white font-bold overflow-hidden transition-all hover:scale-105 active:scale-95"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
@@ -73,7 +77,6 @@ const Navbar = () => {
               </button>
             </div>
 
-            {/* Mobile Toggle */}
             <div className="md:hidden flex items-center">
               <button 
                 onClick={() => setIsOpen(!isOpen)} 
@@ -85,7 +88,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu Animado con Framer Motion */}
         <AnimatePresence>
           {isOpen && (
             <motion.div 
@@ -107,7 +109,7 @@ const Navbar = () => {
                 ))}
                 <button
                   onClick={() => {
-                    setIsModalOpen(true);
+                    handleModalOpen();
                     setIsOpen(false);
                   }}
                   className="w-full py-4 rounded-2xl bg-saas-orange text-white font-bold shadow-xl shadow-saas-orange/20 flex items-center justify-center gap-2"
@@ -120,7 +122,6 @@ const Navbar = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Modal - Rediseño más limpio */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
