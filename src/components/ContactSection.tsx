@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 const ContactSection = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  // 1. Estado para guardar lo que el usuario escribe
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    empresa: '',
+    mensaje: ''
+  });
+
+  // 2. Estado para manejar el botón y el mensaje de éxito
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  // Función para actualizar los datos mientras el usuario teclea
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Función que se ejecuta al apretar el botón
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus('loading'); // Cambia el botón a estado de carga
+
+    // SIMULACIÓN DE ENVÍO AL BACKEND (1.5 segundos)
+    // Cuando tengas un endpoint en el BFF para correos, reemplazarás esto con un fetch()
+    setTimeout(() => {
+      console.log("Datos enviados:", formData);
+      setStatus('success'); // Mostramos el mensaje de éxito
+      setFormData({ nombre: '', email: '', empresa: '', mensaje: '' }); // Limpiamos el formulario
+
+      // Opcional: Ocultar el mensaje de éxito después de 5 segundos para que vuelva a la normalidad
+      setTimeout(() => setStatus('idle'), 5000);
+    }, 1500);
   };
 
   return (
@@ -31,6 +60,7 @@ const ContactSection = () => {
             </p>
 
             <div className="space-y-8">
+              {/* ... (Tus datos de contacto se mantienen intactos aquí) ... */}
               <div className="flex items-center gap-5 group">
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-saas-orange group-hover:bg-saas-orange group-hover:text-white transition-all duration-300">
                   <Mail size={20} />
@@ -75,28 +105,76 @@ const ContactSection = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Nombre completo</label>
-                  <input type="text" placeholder="Ej: Alonzo" className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" />
+                  <input 
+                    type="text" 
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ej: Alonzo" 
+                    className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Correo electrónico</label>
-                  <input type="email" placeholder="ejemplo@correo.com" className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" />
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="ejemplo@correo.com" 
+                    className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" 
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Empresa / Organización</label>
-                <input type="text" placeholder="Nombre de la empresa" className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" />
+                <input 
+                  type="text" 
+                  name="empresa"
+                  value={formData.empresa}
+                  onChange={handleChange}
+                  placeholder="Nombre de la empresa" 
+                  className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" 
+                />
               </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Mensaje</label>
-                <textarea rows={4} placeholder="Escribe tu consulta aquí..." className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400 resize-none"></textarea>
+                <textarea 
+                  rows={4} 
+                  name="mensaje"
+                  value={formData.mensaje}
+                  onChange={handleChange}
+                  required
+                  placeholder="Escribe tu consulta aquí..." 
+                  className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400 resize-none"
+                ></textarea>
               </div>
 
-              <Button className="w-full py-8 bg-[#0a414d] hover:bg-slate-800 text-white font-bold rounded-2xl transition-all shadow-lg group uppercase text-xs tracking-widest">
-                Enviar mensaje
-                <Send size={16} className="ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              {/* Botón dinámico que cambia según el estado */}
+              <Button 
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full py-8 bg-[#0a414d] hover:bg-slate-800 disabled:bg-slate-400 text-white font-bold rounded-2xl transition-all shadow-lg group uppercase text-xs tracking-widest"
+              >
+                {status === 'loading' ? 'Enviando...' : 'Enviar mensaje'}
+                {status !== 'loading' && <Send size={16} className="ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
               </Button>
+
+              {/* Mensaje de éxito renderizado condicionalmente */}
+              {status === 'success' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center justify-center p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 mt-4"
+                >
+                  <CheckCircle2 size={20} className="mr-2" />
+                  <span className="font-bold text-sm">Mensaje Enviado con Exito</span>
+                </motion.div>
+              )}
             </form>
           </motion.div>
 
