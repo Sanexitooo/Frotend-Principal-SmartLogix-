@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
-import AboutSection from "@/components/AboutSection"; // Reintegrado
+import AboutSection from "@/components/AboutSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import PricingSection from "@/components/PricingSection";
 import ContactSection from "@/components/ContactSection";
@@ -17,23 +17,18 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white font-montserrat">
-      <Navbar onOpenLogin={handleOpenLogin} /> 
-      
+      <Navbar onOpenLogin={handleOpenLogin} />
+
       <main>
         <HeroSection onOpenLogin={handleOpenLogin} />
         
         <FeaturesSection />
-        
-        {/* Sección de Historia reintegrada */}
         <AboutSection />
-        
         <TestimonialsSection />
-        
         <PricingSection />
-        
         <ContactSection />
       </main>
-      
+
       <Footer />
     </div>
   );

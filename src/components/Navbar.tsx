@@ -12,6 +12,10 @@ const Navbar = ({ onOpenLogin }: NavbarProps) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [scrolled, setScrolled] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -28,7 +32,28 @@ const Navbar = ({ onOpenLogin }: NavbarProps) => {
   const handleModalOpen = () => {
     setIsLoginMode(true);
     setIsModalOpen(true);
-    onOpenLogin();
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLoginMode) {
+      const validUsers = [
+        { email: "Alonzo@corp.cl", pass: "Alon1212" },
+        { email: "Tomi@corp.cl", pass: "Tomi1212" },
+        { email: "Fabian@corp.cl", pass: "Fabi1212" }
+      ];
+
+      const user = validUsers.find(u => u.email === email && u.pass === password);
+
+      if (user) {
+        window.location.href = "http://localhost:5174";
+      } else {
+        alert("Credenciales incorrectas");
+      }
+    } else {
+      console.log("Registrando:", { fullName, email, password });
+      setIsLoginMode(true);
+    }
   };
 
   return (
@@ -156,14 +181,34 @@ const Navbar = ({ onOpenLogin }: NavbarProps) => {
                 <p className="text-slate-500 font-medium mt-2">Accede a tu plataforma logística</p>
               </div>
 
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 {!isLoginMode && (
-                  <input type="text" placeholder="Nombre completo" className="w-full bg-slate-50 border-none p-4 rounded-2xl focus:ring-2 focus:ring-saas-orange/20 outline-none transition-all" />
+                  <input 
+                    type="text" 
+                    placeholder="Nombre completo" 
+                    className="w-full bg-slate-50 border-none p-4 rounded-2xl focus:ring-2 focus:ring-saas-orange/20 outline-none transition-all text-slate-900" 
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
                 )}
-                <input type="email" placeholder="Email corporativo" className="w-full bg-slate-50 border-none p-4 rounded-2xl focus:ring-2 focus:ring-saas-orange/20 outline-none transition-all" />
-                <input type="password" placeholder="Contraseña" className="w-full bg-slate-50 border-none p-4 rounded-2xl focus:ring-2 focus:ring-saas-orange/20 outline-none transition-all" />
+                <input 
+                  type="email" 
+                  placeholder="Email corporativo" 
+                  className="w-full bg-slate-50 border-none p-4 rounded-2xl focus:ring-2 focus:ring-saas-orange/20 outline-none transition-all text-slate-900"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <input 
+                  type="password" 
+                  placeholder="Contraseña" 
+                  className="w-full bg-slate-50 border-none p-4 rounded-2xl focus:ring-2 focus:ring-saas-orange/20 outline-none transition-all text-slate-900"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
                 
-                <button className="w-full bg-saas-teal text-white py-4 rounded-2xl font-black hover:bg-slate-800 transition-all shadow-xl shadow-saas-teal/20 mt-4 group">
+                <button type="submit" className="w-full bg-saas-teal text-white py-4 rounded-2xl font-black hover:bg-slate-800 transition-all shadow-xl shadow-saas-teal/20 mt-4 group">
                   {isLoginMode ? "Entrar al Dashboard" : "Empezar ahora"}
                 </button>
               </form>
