@@ -1,3 +1,4 @@
+import tailwindcssAnimate from "tailwindcss-animate"; 
 import type { Config } from "tailwindcss";
 
 export default {
@@ -54,11 +55,8 @@ export default {
                 },
                 saas: {
                     black: "#050505",    
-                    // Actualizado: Princeton Orange de la imagen
                     orange: "#FF8400",   
-                    // Actualizado: Dark Teal de la imagen
                     teal: "#0B4654",     
-                    // Mantenemos el blanco de fondo solicitado
                     white: "#FFFFFF",    
                     darkGray: "#1A1A1A",
                 },
@@ -106,5 +104,5 @@ export default {
             }
         }
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [tailwindcssAnimate],
 } satisfies Config;
