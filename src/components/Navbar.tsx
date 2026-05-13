@@ -117,12 +117,11 @@ const Navbar = () => {
     item.codigo.includes(searchTerm)
   ).slice(0, 6);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Obtenemos la URL del BFF desde el .env de Vite
     const apiUrl = import.meta.env.VITE_API_URL;
-
     try {
       if (isLoginMode) {
         // -----------------------------------------
@@ -148,10 +147,9 @@ const Navbar = () => {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('user_info', JSON.stringify(data.usuario));
 
-        // Redirigimos al Dashboard Privado
-        // (Nota: Tu compañero puso 5173, pero si tu Dashboard React corre en el 3000, 
-        // cambia este número a http://localhost:3000)
-        window.location.href = "http://localhost:3000"; 
+        // REDIRECCIÓN CORREGIDA: 
+        // Apuntamos directamente a tu Dashboard HTML en el servidor Python
+        window.location.href = "http://localhost:5500/index.html"; 
 
       } else {
         // -----------------------------------------
