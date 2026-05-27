@@ -1,73 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircle, X, Send, Maximize2, Minimize2 } from "lucide-react"; // Incluye iconos de expansión
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || ""; 
+
+interface MensajeHistorial {
+  text: string;
+  isBot: boolean;
+}
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false); // Estado para controlar el tamaño expandido
   const [mensaje, setMensaje] = useState("");
-  const [historial, setHistorial] = useState([
-    { text: "¡Hola! Soy SmartBot, mucho gusto. 👋 ¿En qué puedo ayudarte con tu logística hoy?", isBot: true }
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const saludoInicial = "¡Hola! Soy SmartBot, mucho gusto. 👋 ¿En qué puedo ayudarte con tu logística hoy?";
+  
+  const [historial, setHistorial] = useState<MensajeHistorial[]>([
+    { text: saludoInicial, isBot: true }
   ]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const obtenerRespuestaBot = (input: string) => {
-    const min = input.toLowerCase().trim();
-    
-    // 1. Saludos
-    if (/h+o+l+a+|buena+s+|holi|hey/.test(min)) {
-      return "¡Hola! Soy SmartBot, mucho gusto. ¿Te gustaría optimizar tus rutas, consultar nuestras tarifas o saber más sobre seguridad?";
-    }
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [historial, isLoading]);
 
-    // 2. Ayuda / Ejecutivo (Nueva Regla)
-    if (min.includes("ayuda") || min.includes("soporte") || min.includes("hablar con alguien") || min.includes("humano")) {
-      return "Entiendo perfectamente. He escalado tu solicitud: un ejecutivo experto de SmartLogix se pondrá en línea contigo en breve para asistirte personalmente. 👨‍💻";
-    }
-    
-    // 3. Rutas y Optimización
-    if (min.includes("ruta") || min.includes("recorrido") || min.includes("optimizacion") || min.includes("mapa")) {
-      return "SmartBot te informa: Nuestros algoritmos reducen costos de combustible en un 25% optimizando cada entrega según el tráfico real.";
-    }
-
-    // 4. Seguimiento y GPS
-    if (min.includes("rastreo") || min.includes("donde esta") || min.includes("gps") || min.includes("flota")) {
-      return "Puedes monitorear toda tu flota en tiempo real con nuestro sistema GPS integrado directamente en el dashboard.";
-    }
-
-    // 5. Precios y Tarifas
-    if (min.includes("precio") || min.includes("cuanto cuesta") || min.includes("tarifas") || min.includes("valor") || min.includes("plan")) {
-      return "Contamos con planes desde $20.000 (Basic) hasta $100.000 (Enterprise). ¿Quieres que te ayude a elegir el ideal para tu empresa?";
-    }
-
-    // 6. Integraciones
-    if (min.includes("api") || min.includes("integrar") || min.includes("shopify") || min.includes("ecommerce")) {
-      return "¡Claro! SmartBot puede confirmarte que nos integramos con Shopify, Vtex y APIs personalizadas sin problemas.";
-    }
-
-    // 7. Seguridad
-    if (min.includes("seguro") || min.includes("seguridad") || min.includes("datos") || min.includes("privacidad")) {
-      return "La seguridad es mi prioridad. Implementamos 'Privacy by Design' para blindar toda la información de tus operaciones.";
-    }
-
-    // 8. Despedidas
-    if (min.includes("gracias") || min.includes("chao") || min.includes("adios") || min.includes("nos vemos")) {
-      return "¡De nada! Fue un placer ayudarte. SmartBot estará aquí si necesitas algo más. ¡Éxito en tus entregas!";
-    }
-    
-    // 9. Fallback: Lo que dice si no entiende (ej: "adsadad")
-    return "Lo siento, no logré entender lo que dijiste. 😅 ¿Podrías decirmelo de nuevo? Recuerda que puedo ayudarte con rutas, tarifas o seguridad.";
+  const handleCerrar = () => {
+    setIsOpen(false);
+    setIsMaximized(false); // Resetea el tamaño al cerrar
+    setHistorial([{ text: saludoInicial, isBot: true }]); // Limpia el historial al cerrar
   };
 
-  const handleEnviar = (e: React.FormEvent) => {
+  const handleEnviar = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!mensaje.trim()) return;
+    if (!mensaje.trim() || isLoading) return;
 
     const mensajeUsuario = mensaje;
     setHistorial(prev => [...prev, { text: mensajeUsuario, isBot: false }]);
     setMensaje("");
+    setIsLoading(true);
 
-    setTimeout(() => {
-      const respuesta = obtenerRespuestaBot(mensajeUsuario);
-      setHistorial(prev => [...prev, { text: respuesta, isBot: true }]);
-    }, 800);
+    try {
+      if (!apiKey) {
+        throw new Error("API Key no configurada");
+      }
+      
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({
+        model: "gemini-2.5-flash", 
+        systemInstruction: "Eres SmartBot, el asistente virtual inteligente de la plataforma SmartLogix. Tu objetivo es ayudar a los usuarios con la gestión logística, optimización de rutas y soporte del dashboard. Base de conocimientos obligatoria:\n1. Rutas: Reducimos costos de combustible en un 25% mediante algoritmos optimizados según el tráfico real.\n2. GPS: Monitoreo de flota en tiempo real integrado en el dashboard.\n3. Precios: Plan Basic ($20.000) and Plan Enterprise ($100.000).\n4. Integraciones: Shopify, Vtex y APIs personalizadas.\n5. Seguridad: Arquitectura basada en 'Privacy by Design' para proteger datos operativos.\n6. Soporte humano: Si el usuario pide hablar con un humano o un ejecutivo, dile que has escalado la solicitud y un experto se conectará en breve.\nResponde de forma concisa, profesional y usa emojis amigables. Si te preguntan cosas fuera de la logística o SmartLogix, amablemente vuelve a enfocar la conversación.",
+      });
+
+      // Filtra el saludo inicial y errores previos para no romper la secuencia del chat
+      const historyToPass = historial
+        .filter(m => m.text !== saludoInicial && !m.text.startsWith("⚠️ Error"))
+        .map(m => ({
+          role: m.isBot ? "model" : "user",
+          parts: [{ text: m.text }],
+        }));
+
+      const chat = model.startChat({
+        history: historyToPass,
+      });
+
+      const result = await chat.sendMessage(mensajeUsuario);
+      const respuestaBot = result.response.text();
+
+      setHistorial(prev => [...prev, { text: respuestaBot, isBot: true }]);
+    } catch (error: any) {
+      console.error("Error con Gemini API:", error);
+      setHistorial(prev => [...prev, { 
+        text: `⚠️ Error de conexión: ${error.message || "Problema desconocido"}`, 
+        isBot: true 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,20 +88,40 @@ const Chatbot = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20, transformOrigin: "bottom right" }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="mb-4 w-[350px] h-[500px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col"
+            // Clases dinámicas para manejar el tamaño responsivo cuando se maximiza
+            className={`mb-4 bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col transition-all duration-300 ease-in-out ${
+              isMaximized 
+                ? "w-[calc(100vw-3rem)] h-[calc(100vh-6rem)] md:w-[600px] md:h-[750px]" 
+                : "w-[350px] h-[500px]"
+            }`}
           >
+            {/* Barra superior */}
             <div className="bg-[#0f4c5c] p-5 text-white flex justify-between items-center shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-saas-orange rounded-full flex items-center justify-center border border-white/20">
+                <div className="w-8 h-8 bg-[#ff7a00] rounded-full flex items-center justify-center border border-white/20">
                   <MessageCircle size={16} className="text-white" />
                 </div>
                 <span className="font-bold text-sm tracking-tight">SmartBot - SmartLogix</span>
               </div>
-              <button onClick={() => setIsOpen(false)} className="hover:bg-white/10 p-1 rounded-lg transition-colors">
-                <X size={20} />
-              </button>
+              
+              {/* Contenedor de botones (Expandir y Cerrar) */}
+              <div className="flex items-center gap-1">
+                <button 
+                  type="button"
+                  onClick={() => setIsMaximized(!isMaximized)} 
+                  className="hover:bg-white/10 p-1.5 rounded-lg transition-colors text-white/80 hover:text-white"
+                  title={isMaximized ? "Minimizar" : "Maximizar"}
+                >
+                  {isMaximized ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+
+                <button type="button" onClick={handleCerrar} className="hover:bg-white/10 p-1.5 rounded-lg transition-colors">
+                  <X size={19} />
+                </button>
+              </div>
             </div>
 
+            {/* Área de mensajes */}
             <div className="flex-1 p-5 bg-[#f8fafc] overflow-y-auto flex flex-col gap-4">
               {historial.map((m, i) => (
                 <motion.div 
@@ -109,19 +139,30 @@ const Chatbot = () => {
                   </div>
                 </motion.div>
               ))}
+
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white text-slate-400 px-4 py-3 rounded-[1.2rem] rounded-tl-none text-[13px] border border-slate-100 italic animate-pulse">
+                    SmartBot está pensando...
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
 
+            {/* Input de texto */}
             <form onSubmit={handleEnviar} className="p-4 bg-white border-t border-slate-100 flex gap-2 items-center">
               <input 
                 type="text" 
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
-                placeholder="Escribe a SmartBot..."
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#ff7a00]/20 focus:border-[#ff7a00] outline-none transition-all text-slate-800"
+                placeholder={isLoading ? "Esperando respuesta..." : "Escribe a SmartBot..."}
+                disabled={isLoading}
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#ff7a00]/20 focus:border-[#ff7a00] outline-none transition-all text-slate-800 disabled:opacity-50"
               />
               <button 
                 type="submit"
-                disabled={!mensaje.trim()}
+                disabled={!mensaje.trim() || isLoading}
                 className="bg-[#ff7a00] text-white p-2.5 rounded-xl hover:bg-[#e66e00] transition-all active:scale-95 disabled:opacity-30"
               >
                 <Send size={18} />
@@ -131,9 +172,16 @@ const Chatbot = () => {
         )}
       </AnimatePresence>
 
+      {/* Botón flotante para abrir/cerrar */}
       <motion.button
         layout
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (isOpen) {
+            handleCerrar();
+          } else {
+            setIsOpen(true);
+          }
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}
         className={`${isOpen ? "bg-slate-800" : "bg-[#ff7a00]"} text-white p-4 rounded-full shadow-2xl transition-colors duration-300`}
