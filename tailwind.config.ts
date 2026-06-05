@@ -54,11 +54,18 @@ export default {
                     foreground: 'hsl(var(--card-foreground))'
                 },
                 saas: {
-                    black: "#050505",    
-                    orange: "#FF8400",   
-                    teal: "#0B4654",     
-                    white: "#FFFFFF",    
+                    black: "#050505",
+                    orange: "#FF8400",
+                    teal: "#0B4654",
+                    white: "#FFFFFF",
                     darkGray: "#1A1A1A",
+                    tealDark: "#0a2e36",
+                    tealMid: "#0a414d",
+                    tealChat: "#0f4c5c",
+                    orangeVivid: "#ff7a00",
+                    orangeHover: "#e66e00",
+                    orangeCTA: "#e67700",
+                    lightBg: "#f8fafc",
                 },
             },
             borderRadius: {

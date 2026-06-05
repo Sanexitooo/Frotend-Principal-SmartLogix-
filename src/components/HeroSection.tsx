@@ -38,7 +38,7 @@ const HeroSection = ({ onOpenLogin }: HeroProps) => {
             <div className="flex justify-center">
               <Button 
                 onClick={onOpenLogin}
-                className="bg-saas-orange hover:bg-[#e67700] text-white font-black py-8 px-12 rounded-2xl transition-all shadow-2xl shadow-saas-orange/30 text-xl active:scale-95 group"
+                className="bg-saas-orange hover:bg-saas-orangeCTA text-white font-black py-8 px-12 rounded-2xl transition-all shadow-2xl shadow-saas-orange/30 text-xl active:scale-95 group"
               >
                 Empezar Gratis
                 <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-1 transition-transform" />
