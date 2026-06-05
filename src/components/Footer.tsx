@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -9,11 +8,11 @@ const Footer = () => {
           
           {/* Brand & Sede Info */}
           <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="inline-block mb-4">
+            <a href="#" className="inline-block mb-4">
               <span className="text-2xl font-bold bg-gradient-to-r from-saas-orange to-amber-500 bg-clip-text text-transparent">
                 SmartLogix
               </span>
-            </Link>
+            </a>
             <p className="text-gray-400 mb-6 text-sm">
               Optimiza tu logística con nuestra solución tecnológica diseñada para empresas modernas de transporte.
             </p>
@@ -38,9 +37,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Producto</h3>
             <ul className="space-y-3 text-gray-400 text-sm">
-              <li><Link to="/" className="hover:text-saas-orange transition-colors">Inicio</Link></li>
-              <li><Link to="/nosotros" className="hover:text-saas-orange transition-colors">Acerca de Nosotros</Link></li>
-              <li><Link to="/tarifas" className="hover:text-saas-orange transition-colors">Precios</Link></li>
+              <li><a href="#" className="hover:text-saas-orange transition-colors">Inicio</a></li>
+              <li><a href="#nosotros" className="hover:text-saas-orange transition-colors">Acerca de Nosotros</a></li>
+              <li><a href="#tarifas" className="hover:text-saas-orange transition-colors">Precios</a></li>
               <li><a href="#" className="hover:text-saas-orange transition-colors">Documentación</a></li>
             </ul>
           </div>
@@ -50,7 +49,7 @@ const Footer = () => {
             <ul className="space-y-3 text-gray-400 text-sm">
               <li><a href="#" className="hover:text-saas-orange transition-colors">Blog</a></li>
               <li><a href="#" className="hover:text-saas-orange transition-colors">Contáctanos</a></li>
-              <li><Link to="/nosotros" className="hover:text-saas-orange transition-colors">Sobre nosotros</Link></li>
+              <li><a href="#nosotros" className="hover:text-saas-orange transition-colors">Sobre nosotros</a></li>
             </ul>
           </div>
 

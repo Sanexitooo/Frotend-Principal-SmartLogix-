@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 
 const CtaSection = () => {
   return (
@@ -41,13 +40,13 @@ const CtaSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <Link to="/nosotros">
+                <a href="#nosotros">
                   <Button 
                     className="bg-saas-orange hover:bg-orange-600 text-white font-bold py-6 px-10 rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95"
                   >
                     Acerca de Nosotros
                   </Button>
-                </Link>
+                </a>
               </motion.div>
             </div>
             
