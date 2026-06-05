@@ -1,24 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Maximize2, Minimize2 } from "lucide-react"; // Incluye iconos de expansión
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY || ""; 
-
-interface MensajeHistorial {
-  text: string;
-  isBot: boolean;
-}
+import { MessageCircle, X, Send, Maximize2, Minimize2 } from "lucide-react";
+import { chatService } from "@/services/gemini-chat.service";
+import type { ChatMessage } from "@/types/ai";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMaximized, setIsMaximized] = useState(false); // Estado para controlar el tamaño expandido
+  const [isMaximized, setIsMaximized] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   
   const saludoInicial = "¡Hola! Soy SmartBot, mucho gusto. 👋 ¿En qué puedo ayudarte con tu logística hoy?";
   
-  const [historial, setHistorial] = useState<MensajeHistorial[]>([
+  const [historial, setHistorial] = useState<ChatMessage[]>([
     { text: saludoInicial, isBot: true }
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -43,37 +37,16 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      if (!apiKey) {
-        throw new Error("API Key no configurada");
-      }
-      
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash", 
-        systemInstruction: "Eres SmartBot, el asistente virtual inteligente de la plataforma SmartLogix. Tu objetivo es ayudar a los usuarios con la gestión logística, optimización de rutas y soporte del dashboard. Base de conocimientos obligatoria:\n1. Rutas: Reducimos costos de combustible en un 25% mediante algoritmos optimizados según el tráfico real.\n2. GPS: Monitoreo de flota en tiempo real integrado en el dashboard.\n3. Precios: Plan Basic ($20.000) and Plan Enterprise ($100.000).\n4. Integraciones: Shopify, Vtex y APIs personalizadas.\n5. Seguridad: Arquitectura basada en 'Privacy by Design' para proteger datos operativos.\n6. Soporte humano: Si el usuario pide hablar con un humano o un ejecutivo, dile que has escalado la solicitud y un experto se conectará en breve.\nResponde de forma concisa, profesional y usa emojis amigables. Si te preguntan cosas fuera de la logística o SmartLogix, amablemente vuelve a enfocar la conversación.",
-      });
-
-      // Filtra el saludo inicial y errores previos para no romper la secuencia del chat
-      const historyToPass = historial
-        .filter(m => m.text !== saludoInicial && !m.text.startsWith("⚠️ Error"))
-        .map(m => ({
-          role: m.isBot ? "model" : "user",
-          parts: [{ text: m.text }],
-        }));
-
-      const chat = model.startChat({
-        history: historyToPass,
-      });
-
-      const result = await chat.sendMessage(mensajeUsuario);
-      const respuestaBot = result.response.text();
+      const filteredHistory = historial.filter(m => m.text !== saludoInicial);
+      const respuestaBot = await chatService.sendMessage(mensajeUsuario, filteredHistory);
 
       setHistorial(prev => [...prev, { text: respuestaBot, isBot: true }]);
-    } catch (error: any) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Problema desconocido";
       console.error("Error con Gemini API:", error);
-      setHistorial(prev => [...prev, { 
-        text: `⚠️ Error de conexión: ${error.message || "Problema desconocido"}`, 
-        isBot: true 
+      setHistorial(prev => [...prev, {
+        text: `⚠️ Error de conexión: ${message}`,
+        isBot: true
       }]);
     } finally {
       setIsLoading(false);
@@ -96,9 +69,9 @@ const Chatbot = () => {
             }`}
           >
             {/* Barra superior */}
-            <div className="bg-[#0f4c5c] p-5 text-white flex justify-between items-center shrink-0">
+            <div className="bg-saas-tealChat p-5 text-white flex justify-between items-center shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-[#ff7a00] rounded-full flex items-center justify-center border border-white/20">
+                <div className="w-8 h-8 bg-saas-orangeVivid rounded-full flex items-center justify-center border border-white/20">
                   <MessageCircle size={16} className="text-white" />
                 </div>
                 <span className="font-bold text-sm tracking-tight">SmartBot - SmartLogix</span>
@@ -122,7 +95,7 @@ const Chatbot = () => {
             </div>
 
             {/* Área de mensajes */}
-            <div className="flex-1 p-5 bg-[#f8fafc] overflow-y-auto flex flex-col gap-4">
+            <div className="flex-1 p-5 bg-saas-lightBg overflow-y-auto flex flex-col gap-4">
               {historial.map((m, i) => (
                 <motion.div 
                   initial={{ opacity: 0, x: m.isBot ? -10 : 10 }}
@@ -133,7 +106,7 @@ const Chatbot = () => {
                   <div className={`max-w-[85%] px-4 py-3 rounded-[1.2rem] text-[13px] leading-relaxed shadow-sm ${
                     m.isBot 
                     ? 'bg-white text-slate-700 rounded-tl-none border border-slate-100' 
-                    : 'bg-[#ff7a00] text-white rounded-tr-none font-medium'
+                    : 'bg-saas-orangeVivid text-white rounded-tr-none font-medium'
                   }`}>
                     {m.text}
                   </div>
@@ -158,12 +131,12 @@ const Chatbot = () => {
                 onChange={(e) => setMensaje(e.target.value)}
                 placeholder={isLoading ? "Esperando respuesta..." : "Escribe a SmartBot..."}
                 disabled={isLoading}
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#ff7a00]/20 focus:border-[#ff7a00] outline-none transition-all text-slate-800 disabled:opacity-50"
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-saas-orangeVivid/20 focus:border-saas-orangeVivid outline-none transition-all text-slate-800 disabled:opacity-50"
               />
               <button 
                 type="submit"
                 disabled={!mensaje.trim() || isLoading}
-                className="bg-[#ff7a00] text-white p-2.5 rounded-xl hover:bg-[#e66e00] transition-all active:scale-95 disabled:opacity-30"
+                className="bg-saas-orangeVivid text-white p-2.5 rounded-xl hover:bg-saas-orangeHover transition-all active:scale-95 disabled:opacity-30"
               >
                 <Send size={18} />
               </button>
@@ -184,7 +157,7 @@ const Chatbot = () => {
         }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}
-        className={`${isOpen ? "bg-slate-800" : "bg-[#ff7a00]"} text-white p-4 rounded-full shadow-2xl transition-colors duration-300`}
+        className={`${isOpen ? "bg-slate-800" : "bg-saas-orangeVivid"} text-white p-4 rounded-full shadow-2xl transition-colors duration-300`}
       >
         <AnimatePresence mode="wait">
           {isOpen ? <X key="x" size={28} /> : <MessageCircle key="m" size={28} />}
