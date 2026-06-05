@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Zap } from 'lucide-react';
 import { useFadeInView, hoverLift } from '@/hooks/use-fade-in-view';
+import { imgOnError } from "@/lib/img";
 
 const AboutSection = () => {
   const imageAnim = useFadeInView({ y: 30 });
@@ -16,6 +17,7 @@ const AboutSection = () => {
                 src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1974&auto=format&fit=crop"
                 alt="SmartLogix Team"
                 className="w-full h-[500px] object-cover"
+                onError={imgOnError}
               />
             </div>
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-saas-orange/20 rounded-full blur-3xl -z-10" />

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useFadeInView } from "@/hooks/use-fade-in-view";
+import { imgOnError } from "@/lib/img";
 
 const CtaSection = () => {
   const ref = useFadeInView({ once: true });
@@ -34,6 +35,7 @@ const CtaSection = () => {
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyYMZdhczIzyQN5oSp3Whz_1iao2IMppulTg&s"
                 alt="Alianza estratégica"
                 className="rounded-xl w-full shadow-2xl object-cover opacity-90 border border-white/10"
+                onError={imgOnError}
               />
             </div>
           </div>

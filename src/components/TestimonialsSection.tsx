@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { testimonials } from "@/data/testimonials";
 import { Testimonial } from "@/types";
+import { imgOnError } from "@/lib/img";
 
 const TestimonialsSection = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -66,6 +67,7 @@ const TestimonialsSection = () => {
                   src={testimonialsList[currentIndex].image}
                   alt={testimonialsList[currentIndex].author}
                   className="w-32 h-32 md:w-44 md:h-44 rounded-[2.5rem] object-cover border-4 border-saas-orange relative z-10 shadow-2xl"
+                  onError={imgOnError}
                 />
               </div>
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { imgOnError } from "@/lib/img";
 
 interface HeroProps {
   onOpenLogin: () => void;
@@ -47,9 +48,9 @@ const HeroSection = ({ onOpenLogin }: HeroProps) => {
             
             <div className="mt-16 flex items-center justify-center gap-4">
               <div className="flex -space-x-4">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9U1CvvldfhYbQ1oWOFEosFwh8xpG3ft4ZJw&s" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U1" />
-                <img src="https://img.lahora.cl/upload/2026/02/17161D524C43466D15100F55504940791F121D18534146731514-1200x800.webp" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U2" />
-                <img src="https://media-front.elmostrador.cl/2022/05/124820758_pug1-210x210.jpg" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U3" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9U1CvvldfhYbQ1oWOFEosFwh8xpG3ft4ZJw&s" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U1" onError={imgOnError} />
+                <img src="https://img.lahora.cl/upload/2026/02/17161D524C43466D15100F55504940791F121D18534146731514-1200x800.webp" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U2" onError={imgOnError} />
+                <img src="https://media-front.elmostrador.cl/2022/05/124820758_pug1-210x210.jpg" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U3" onError={imgOnError} />
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 font-bold max-w-xs text-left leading-tight">
                 Más de <span className="text-saas-teal font-black">500+</span> empresas líderes confían en nuestra gestión.
@@ -74,6 +75,7 @@ const HeroSection = ({ onOpenLogin }: HeroProps) => {
                 src="https://images.unsplash.com/photo-1668597388138-9d1dae099182?q=80&w=1078&auto=format&fit=crop"
                 alt="Interface dashboard preview"
                 className="rounded-2xl w-full"
+                onError={imgOnError}
               />
               <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-saas-teal/90 backdrop-blur-sm px-8 py-4 rounded-2xl text-white text-sm font-black shadow-2xl z-20 border border-white/10">
                 SISTEMA DE CONTROL 
