@@ -277,3 +277,13 @@
 .pulse-orange {
   animation: pulseGlow 2s infinite;
 }
+
+.decorative-blur {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decorative-blur {
+    display: none;
+  }
+}

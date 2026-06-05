@@ -20,7 +20,7 @@ const TestimonialsSection = () => {
   return (
     <section className="py-24 bg-saas-teal relative overflow-hidden">
       {/* Background elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-saas-orange/10 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-saas-orange/10 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none decorative-blur"></div>
       
       <div className="section-container relative z-10 text-white">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 text-left">

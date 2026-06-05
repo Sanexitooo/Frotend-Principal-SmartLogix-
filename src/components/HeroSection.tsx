@@ -11,8 +11,8 @@ interface HeroProps {
 const HeroSection = ({ onOpenLogin }: HeroProps) => {
   return (
     <section className="relative bg-white dark:bg-saas-darkGray overflow-hidden min-h-[90vh] flex items-center pt-20">
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-saas-orange opacity-5 rounded-full blur-[120px]"></div>
-      <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-saas-teal opacity-10 rounded-full blur-[100px]"></div>
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-saas-orange opacity-5 rounded-full blur-[120px] pointer-events-none decorative-blur"></div>
+      <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-saas-teal opacity-10 rounded-full blur-[100px] pointer-events-none decorative-blur"></div>
       
       <div className="section-container relative z-10 w-full text-center">
         <div className="flex flex-col items-center justify-center max-w-7xl mx-auto px-6">
