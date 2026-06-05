@@ -1,30 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const testimonials = [
-  {
-    text: "Implementar SmartLogix cambió las reglas del juego para nuestro equipo. La interfaz es intuitiva y el monitoreo en tiempo real mejoró nuestra productividad significativamente.",
-    author: "Krystian Reymond",
-    position: "Gerente de Logística",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9U1CvvldfhYbQ1oWOFEosFwh8xpG3ft4ZJw&s"
-  },
-  {
-    text: "El equipo de soporte de SmartLogix es excepcional. Han sido increíblemente receptivos y nos ayudaron a optimizar nuestro flujo de trabajo para sacar el máximo provecho.",
-    author: "Fabian Cuevas",
-    position: "Director de Operaciones",
-    image: "https://img.lahora.cl/upload/2026/02/17161D524C43466D15100F55504940791F121D18534146731514-1200x800.webp"
-  },
-  {
-    text: "Hemos probado varias plataformas antes, pero SmartLogix ofrece el equilibrio perfecto entre funcionalidad y facilidad de uso. Es esencial para nuestra operación diaria.",
-    author: "Tomas Martinez",
-    position: "Jefe de Flota",
-    image: "https://media-front.elmostrador.cl/2022/05/124820758_pug1-210x210.jpg"
-  }
-];
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { testimonials } from "@/data/testimonials";
+import { Testimonial } from "@/types";
 
 const TestimonialsSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const testimonialsList = testimonials as Testimonial[];
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -80,9 +62,9 @@ const TestimonialsSection = () => {
             >
               <div className="relative shrink-0">
                 <div className="absolute inset-0 bg-saas-orange blur-2xl opacity-20 rounded-full"></div>
-                <img 
-                  src={testimonials[currentIndex].image} 
-                  alt={testimonials[currentIndex].author}
+                 <img
+                  src={testimonialsList[currentIndex].image}
+                  alt={testimonialsList[currentIndex].author}
                   className="w-32 h-32 md:w-44 md:h-44 rounded-[2.5rem] object-cover border-4 border-saas-orange relative z-10 shadow-2xl"
                 />
               </div>
@@ -94,14 +76,14 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
                 
-                <p className="text-xl md:text-2xl text-slate-100 font-medium leading-relaxed mb-8">
-                  "{testimonials[currentIndex].text}"
+                 <p className="text-xl md:text-2xl text-slate-100 font-medium leading-relaxed mb-8">
+                  "{testimonialsList[currentIndex].text}"
                 </p>
                 
                 <div>
-                  <h4 className="text-2xl font-black text-white">{testimonials[currentIndex].author}</h4>
+                  <h4 className="text-2xl font-black text-white">{testimonialsList[currentIndex].author}</h4>
                   <p className="text-saas-orange font-bold tracking-wide uppercase text-sm mt-1">
-                    {testimonials[currentIndex].position}
+                    {testimonialsList[currentIndex].position}
                   </p>
                 </div>
               </div>
@@ -109,7 +91,7 @@ const TestimonialsSection = () => {
           </AnimatePresence>
           
           <div className="flex justify-center gap-2 mt-10">
-            {testimonials.map((_, i) => (
+            {testimonialsList.map((_, i) => (
               <div 
                 key={i}
                 className={`h-2 rounded-full transition-all duration-500 ${
