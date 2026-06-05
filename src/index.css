@@ -2,42 +2,141 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * ============================================
+ * DESIGN SYSTEM — Variables CSS
+ * ============================================
+ *
+ * :root  → valores del MODO CLARO (default)
+ * .dark  → valores del MODO OSCURO  (activado por next-themes)
+ *
+ * Cómo funciona:
+ *   next-themes agrega la clase "dark" al <html>.
+ *   Tailwind darkMode:["class"] y estas variables responden automáticamente.
+ *
+ * Convención de nombres HSL:
+ *   Las variables usan HSL (Hue Saturation Lightness) en lugar de hex/RGB.
+ *   Esto permite calcular variantes (hover, muted, etc.) de forma consistente.
+ *   Formato: <hue> <saturation%> <lightness%>
+ *   Ejemplo: --saas-orange: 31 100% 50%  →  hsl(31, 100%, 50%)  →  #FF8400
+ */
+
 @layer base {
+  /* ==================== MODO CLARO (default) ==================== */
   :root {
-    --background: 24 5% 6%;
-    --foreground: 24 10% 95%;
+    /* --- Colores semánticos shadcn/ui --- */
+    --background: 0 0% 100%;
+    --foreground: 190 77% 10%;
 
-    --card: 24 5% 10%;
-    --card-foreground: 24 10% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 190 77% 10%;
 
-    --popover: 24 5% 6%;
-    --popover-foreground: 24 10% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 190 77% 10%;
 
     --primary: 24 100% 50%;
     --primary-foreground: 24 10% 10%;
 
-    --secondary: 24 5% 15%;
-    --secondary-foreground: 24 10% 95%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 190 77% 10%;
 
-    --muted: 24 5% 15%;
-    --muted-foreground: 24 5% 65%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
     --accent: 24 100% 50%;
     --accent-foreground: 24 10% 10%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 24 10% 95%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 24 5% 20%;
-    --input: 24 5% 20%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     --ring: 24 100% 50%;
 
     --radius: 0.75rem;
-    
-    /* Social Media Colors */
+
+    /* --- Redes sociales --- */
     --twitter: 203 89% 53%;
     --facebook: 221 44% 41%;
     --linkedin: 210 90% 40%;
+
+    /*
+     * --- Paleta de marca SmartLogix (MODO CLARO) ---
+     *
+     * Referenciadas en tailwind.config.ts como "hsl(var(--saas-*))".
+     * Se usan en componentes con clases como bg-saas-teal, text-saas-orange, etc.
+     * NO edites los colores aquí si quieres cambiarlos — cambia los valores HSL.
+     */
+    --saas-black: 0 0% 2%;
+    --saas-orange: 31 100% 50%;
+    --saas-teal: 190 77% 19%;
+    --saas-white: 0 0% 100%;
+    --saas-darkGray: 0 0% 10%;
+    --saas-tealDark: 190 60% 14%;
+    --saas-tealMid: 190 70% 17%;
+    --saas-tealChat: 190 72% 21%;
+    --saas-orangeVivid: 29 100% 50%;
+    --saas-orangeHover: 29 100% 45%;
+    --saas-orangeCTA: 29 100% 45%;
+    --saas-lightBg: 210 40% 98%;
+  }
+
+  /* ==================== MODO OSCURO ==================== */
+  /*
+   * Se activa cuando next-themes agrega la clase .dark al <html>.
+   * Solo sobrescribe los valores que cambian — el resto hereda de :root.
+   */
+  .dark {
+    /* --- shadcn/ui: fondos oscuros, texto claro --- */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 92%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 92%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 92%;
+
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 92%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 64%;
+
+    --accent: 24 100% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 24 100% 50%;
+
+    /*
+     * --- Paleta de marca SmartLogix (MODO OSCURO) ---
+     *
+     * Estrategia:
+     *   - saas-white / saas-lightBg → se vuelven oscuros (los fondos claros ahora son dark)
+     *   - saas-teal → más claro (55%) para que contraste sobre fondo oscuro
+     *   - saas-darkGray → un tono intermedio para secciones que ya eran oscuras
+     *   - Naranjos → se mantienen igual (suficiente contraste en ambos modos)
+     */
+    --saas-black: 0 0% 90%;
+    --saas-orange: 31 100% 50%;
+    --saas-teal: 190 60% 55%;
+    --saas-white: 0 0% 6%;
+    --saas-darkGray: 0 0% 14%;
+    --saas-tealDark: 0 0% 4%;
+    --saas-tealMid: 190 40% 25%;
+    --saas-tealChat: 190 50% 30%;
+    --saas-orangeVivid: 29 100% 50%;
+    --saas-orangeHover: 29 100% 45%;
+    --saas-orangeCTA: 29 100% 45%;
+    --saas-lightBg: 0 0% 10%;
   }
 }
 
