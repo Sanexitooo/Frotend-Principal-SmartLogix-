@@ -30,15 +30,3 @@ export interface SiiCode {
   codigo: string;
   nombre: string;
 }
-
-export interface NavItem {
-  name: string;
-  href: string;
-}
-
-export interface MensajeHistorial {
-  text: string;
-  isBot: boolean;
-}
-
-export type ToastActionElement = React.ReactElement;
