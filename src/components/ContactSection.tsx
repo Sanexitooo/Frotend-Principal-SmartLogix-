@@ -65,7 +65,7 @@ const ContactSection = () => {
           </motion.div>
 
           <motion.div {...rightAnim} {...hoverLift}
-            className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/10 transition-all duration-300 hover:shadow-saas-orange/10"
+            className="bg-white dark:bg-saas-lightBg p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/10 dark:border-slate-700 transition-all duration-300 hover:shadow-saas-orange/10"
           >
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
@@ -73,7 +73,7 @@ const ContactSection = () => {
                     label="Nombre completo"
                     name="nombre"
                     placeholder="Ej: Alonzo"
-                    className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
+                    className="px-5 py-4 bg-slate-50 dark:bg-saas-darkGray border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
                     required
                   />
                   <FormField
@@ -81,7 +81,7 @@ const ContactSection = () => {
                     name="email"
                     type="email"
                     placeholder="ejemplo@correo.com"
-                    className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
+                    className="px-5 py-4 bg-slate-50 dark:bg-saas-darkGray border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
                     required
                   />
                 </div>
@@ -90,7 +90,7 @@ const ContactSection = () => {
                   label="Empresa / Organización"
                   name="empresa"
                   placeholder="Nombre de la empresa"
-                  className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
+                  className="px-5 py-4 bg-slate-50 dark:bg-saas-darkGray border border-slate-100 dark:border-slate-700 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
                   required
                 />
 

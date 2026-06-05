@@ -7,7 +7,7 @@ const AboutSection = () => {
   const imageAnim = useFadeInView({ y: 30 });
   const textAnim = useFadeInView({ x: 30 });
   return (
-    <section id="nosotros" className="py-24 bg-slate-50 overflow-hidden">
+    <section id="nosotros" className="py-24 bg-slate-50 dark:bg-saas-darkGray overflow-hidden">
       <div className="section-container">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div {...imageAnim} {...hoverLift} className="relative">
@@ -29,27 +29,27 @@ const AboutSection = () => {
               Impulsando la logística <br />
               <span className="text-saas-orange italic">con tecnología de punta.</span>
             </h2>
-            <p className="text-slate-600 mb-8 leading-relaxed font-medium">
+            <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed font-medium">
               SmartLogix nació como una solución integral para las PYMEs que buscan optimizar sus procesos de última milla.
               Nos enfocamos en la eficiencia operativa y la seguridad de los datos, garantizando que cada entrega sea
               monitoreada bajo los más altos estándares técnicos.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-8">
-              <motion.div {...hoverLift} className="space-y-3 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+              <motion.div {...hoverLift} className="space-y-3 p-6 bg-white dark:bg-saas-lightBg rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div className="w-10 h-10 bg-saas-orange/10 rounded-xl flex items-center justify-center text-saas-orange">
                   <Shield size={20} />
                 </div>
                 <h4 className="font-bold text-saas-teal">Confianza</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">Arquitectura basada en Privacy by Design para proteger tu información.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Arquitectura basada en Privacy by Design para proteger tu información.</p>
               </motion.div>
               
-              <motion.div {...hoverLift} className="space-y-3 p-6 bg-white rounded-3xl shadow-sm border border-slate-100">
+              <motion.div {...hoverLift} className="space-y-3 p-6 bg-white dark:bg-saas-lightBg rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div className="w-10 h-10 bg-saas-orange/10 rounded-xl flex items-center justify-center text-saas-orange">
                   <Zap size={20} />
                 </div>
                 <h4 className="font-bold text-saas-teal">Velocidad</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">Algoritmos de optimización que reducen tiempos de entrega en un 30%.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Algoritmos de optimización que reducen tiempos de entrega en un 30%.</p>
               </motion.div>
             </div>
           </motion.div>

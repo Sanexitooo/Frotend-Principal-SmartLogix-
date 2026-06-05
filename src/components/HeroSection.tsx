@@ -9,7 +9,7 @@ interface HeroProps {
 
 const HeroSection = ({ onOpenLogin }: HeroProps) => {
   return (
-    <section className="relative bg-white overflow-hidden min-h-[90vh] flex items-center pt-20">
+    <section className="relative bg-white dark:bg-saas-darkGray overflow-hidden min-h-[90vh] flex items-center pt-20">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-saas-orange opacity-5 rounded-full blur-[120px]"></div>
       <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-saas-teal opacity-10 rounded-full blur-[100px]"></div>
       
@@ -31,7 +31,7 @@ const HeroSection = ({ onOpenLogin }: HeroProps) => {
               e Inteligentes.
             </h1>
             
-            <p className="text-lg md:text-xl mb-10 text-slate-600 max-w-2xl mx-auto font-medium">
+            <p className="text-lg md:text-xl mb-10 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-medium">
               Optimiza tus operaciones, aumenta la productividad y mejora la satisfacción de tus clientes con nuestra plataforma de última generación.
             </p>
             
@@ -47,11 +47,11 @@ const HeroSection = ({ onOpenLogin }: HeroProps) => {
             
             <div className="mt-16 flex items-center justify-center gap-4">
               <div className="flex -space-x-4">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9U1CvvldfhYbQ1oWOFEosFwh8xpG3ft4ZJw&s" className="w-12 h-12 rounded-full border-4 border-white shadow-lg object-cover" alt="U1" />
-                <img src="https://img.lahora.cl/upload/2026/02/17161D524C43466D15100F55504940791F121D18534146731514-1200x800.webp" className="w-12 h-12 rounded-full border-4 border-white shadow-lg object-cover" alt="U2" />
-                <img src="https://media-front.elmostrador.cl/2022/05/124820758_pug1-210x210.jpg" className="w-12 h-12 rounded-full border-4 border-white shadow-lg object-cover" alt="U3" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9U1CvvldfhYbQ1oWOFEosFwh8xpG3ft4ZJw&s" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U1" />
+                <img src="https://img.lahora.cl/upload/2026/02/17161D524C43466D15100F55504940791F121D18534146731514-1200x800.webp" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U2" />
+                <img src="https://media-front.elmostrador.cl/2022/05/124820758_pug1-210x210.jpg" className="w-12 h-12 rounded-full border-4 border-white dark:border-saas-darkGray shadow-lg object-cover" alt="U3" />
               </div>
-              <p className="text-sm text-slate-500 font-bold max-w-xs text-left leading-tight">
+              <p className="text-sm text-slate-500 dark:text-slate-400 font-bold max-w-xs text-left leading-tight">
                 Más de <span className="text-saas-teal font-black">500+</span> empresas líderes confían en nuestra gestión.
               </p>
             </div>
@@ -68,7 +68,7 @@ const HeroSection = ({ onOpenLogin }: HeroProps) => {
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="relative bg-white rounded-[2rem] border border-slate-200 p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)]"
+              className="relative bg-white dark:bg-saas-lightBg rounded-[2rem] border border-slate-200 dark:border-slate-700 p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)]"
             >
               <img 
                 src="https://images.unsplash.com/photo-1668597388138-9d1dae099182?q=80&w=1078&auto=format&fit=crop"

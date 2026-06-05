@@ -52,13 +52,13 @@ const PlanCard = ({ plan, index }: { plan: Plan; index: number }) => {
 
 const PricingSection = () => {
   return (
-    <section id="tarifas" className="bg-white py-16 md:py-24 overflow-hidden">
+    <section id="tarifas" className="bg-white dark:bg-saas-darkGray py-16 md:py-24 overflow-hidden">
       <div className="section-container relative">
         <div className="text-center max-w-4xl mx-auto mb-16 relative z-10">
           <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter text-saas-teal leading-none">
             Nuestros <span className="text-saas-orange">Planes</span>
           </h2>
-          <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">
+          <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest">
             Tarifas transparentes diseñadas para escalar junto a tu flota.
           </p>
         </div>
