@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/shared/FormField";
+import { FormTextarea } from "@/components/shared/FormTextarea";
 import { useFadeInView, hoverLift } from '@/hooks/use-fade-in-view';
 
 const ContactSection = () => {
@@ -93,10 +94,7 @@ const ContactSection = () => {
                   required
                 />
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Mensaje</label>
-                <textarea rows={4} placeholder="Escribe tu consulta aquí..." className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400 resize-none"></textarea>
-              </div>
+                <FormTextarea label="Mensaje" name="mensaje" rows={4} placeholder="Escribe tu consulta aquí..." />
 
               <Button className="w-full py-8 bg-saas-tealMid hover:bg-slate-800 text-white font-bold rounded-2xl transition-all shadow-lg group uppercase text-xs tracking-widest">
                 Enviar mensaje
