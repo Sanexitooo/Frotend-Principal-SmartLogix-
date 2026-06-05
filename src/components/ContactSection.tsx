@@ -2,23 +2,23 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { FormField } from "@/components/shared/FormField";
+import { useFadeInView, hoverLift } from '@/hooks/use-fade-in-view';
 
 const ContactSection = () => {
+  const leftAnim = useFadeInView({ x: -30 });
+  const rightAnim = useFadeInView({ delay: 0.2, y: 30, duration: 0.5 });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
   return (
-    <section id="contacto" className="py-24 bg-[#0a2e36] relative overflow-hidden">
+    <section id="contacto" className="py-24 bg-saas-tealDark relative overflow-hidden">
       <div className="section-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center px-6">
           
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <motion.div {...leftAnim}>
             <span className="text-saas-orange font-bold uppercase text-xs tracking-widest mb-4 block">
               Canales de comunicación
             </span>
@@ -63,37 +63,42 @@ const ContactSection = () => {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            whileHover={{ y: -10, transition: { duration: 0.2 } }}
+          <motion.div {...rightAnim} {...hoverLift}
             className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/10 transition-all duration-300 hover:shadow-saas-orange/10"
           >
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Nombre completo</label>
-                  <input type="text" placeholder="Ej: Alonzo" className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" />
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <FormField
+                    label="Nombre completo"
+                    name="nombre"
+                    placeholder="Ej: Alonzo"
+                    className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
+                    required
+                  />
+                  <FormField
+                    label="Correo electrónico"
+                    name="email"
+                    type="email"
+                    placeholder="ejemplo@correo.com"
+                    className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
+                    required
+                  />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Correo electrónico</label>
-                  <input type="email" placeholder="ejemplo@correo.com" className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" />
-                </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Empresa / Organización</label>
-                <input type="text" placeholder="Nombre de la empresa" className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400" />
-              </div>
+                <FormField
+                  label="Empresa / Organización"
+                  name="empresa"
+                  placeholder="Nombre de la empresa"
+                  className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-saas-orange/40 focus:border-saas-orange text-sm font-bold text-saas-teal placeholder:text-slate-400"
+                  required
+                />
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-saas-teal uppercase ml-1 tracking-widest">Mensaje</label>
                 <textarea rows={4} placeholder="Escribe tu consulta aquí..." className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-saas-orange/40 focus:border-saas-orange transition-all text-sm font-bold text-saas-teal placeholder:text-slate-400 resize-none"></textarea>
               </div>
 
-              <Button className="w-full py-8 bg-[#0a414d] hover:bg-slate-800 text-white font-bold rounded-2xl transition-all shadow-lg group uppercase text-xs tracking-widest">
+              <Button className="w-full py-8 bg-saas-tealMid hover:bg-slate-800 text-white font-bold rounded-2xl transition-all shadow-lg group uppercase text-xs tracking-widest">
                 Enviar mensaje
                 <Send size={16} className="ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Button>
