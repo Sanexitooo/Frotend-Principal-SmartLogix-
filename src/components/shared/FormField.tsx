@@ -1,3 +1,23 @@
+/*
+ * ============================================
+ * FormField — Input reutilizable con label
+ * ============================================
+ *
+ * Abstraction over un <input> con label, usando forwardRef para
+ * compatibilidad con react-hook-form.
+ *
+ * Props:
+ *   - label: texto opcional del label (arriba del input)
+ *   - name: se usa como id si no se pasa id explícito
+ *   - className: se fusiona con los estilos base via cn()
+ *   - El resto de props (type, placeholder, etc.) se pasan al <input>
+ *
+ * Patrón:
+ *   Este componente y FormTextarea comparten la misma estructura visual
+ *   (label + field), cambiando solo el elemento HTML. Ambos usan
+ *   forwardRef y cn() por consistencia.
+ */
+
 import React from "react";
 import { cn } from "@/lib/utils";
 
