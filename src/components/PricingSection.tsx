@@ -1,64 +1,19 @@
-import React from 'react';
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Check } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Check } from "lucide-react";
+import { motion } from "framer-motion";
+import { plans } from "@/data/plans";
+import { useFadeInView, hoverLift } from "@/hooks/use-fade-in-view";
+import type { Plan } from "@/types";
 
-const PricingSection = () => {
-  const plans = [
-    {
-      name: 'Plan Basic',
-      price: '20.000',
-      description: 'Ideal para digitalizar tus primeras rutas operativas.',
-      features: ['Gestión de inventario', 'Registro de pedidos', 'Optimización simple', 'Mapa en tiempo real', '1 usuario admin', 'Soporte estándar'],
-      isPopular: false,
-      ctaText: 'Comenzar ahora',
-      color: 'border-[#8B4513] border-4' 
-    },
-    {
-      name: 'Plan E-Commerce',
-      price: '45.000',
-      description: 'Nuestra solución equilibrada para el crecimiento.',
-      features: ['Todo lo del Plan Basic +', 'Integración eCommerce', 'Gestión automática', 'Optimización avanzada', 'Dashboard completo', 'Hasta 5 usuarios', 'Soporte prioritario'],
-      isPopular: true,
-      ctaText: 'Probar E-Commerce',
-      color: 'border-saas-orange border-4 shadow-2xl shadow-saas-orange/20'
-    },
-    {
-      name: 'Plan Enterprise',
-      price: '100.000',
-      description: 'Potencia máxima para alta demanda.',
-      features: ['Todo lo del Plan E-Commerce +', 'Optimización masiva', 'Gestión multi-bodega', 'Notificaciones push', 'Análisis de KPIs', 'Control de roles', 'Soporte 24/7'],
-      isPopular: false,
-      ctaText: 'Contactar Ventas',
-      color: 'border-slate-800'
-    }
-  ];
-
+const PlanCard = ({ plan, index }: { plan: Plan; index: number }) => {
+  const anim = useFadeInView({ delay: index * 0.15, y: 30, duration: 0.5 });
   return (
-    <section id="tarifas" className="bg-white py-16 md:py-24 overflow-hidden">
-      <div className="section-container relative">
-        <div className="text-center max-w-4xl mx-auto mb-16 relative z-10">
-          <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter text-saas-teal leading-none">
-            Nuestros <span className="text-saas-orange">Planes</span>
-          </h2>
-          <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">
-            Tarifas transparentes diseñadas para escalar junto a tu flota.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 items-stretch px-4 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <motion.div 
-              key={index} 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              whileHover={{ y: -10, transition: { duration: 0.2 } }}
-              className={`rounded-[2.5rem] p-8 bg-slate-950 flex flex-col h-full transition-all duration-300 shadow-xl hover:shadow-saas-orange/10 ${
-                plan.isPopular ? 'scale-105 z-10' : 'scale-95'
-              } ${plan.color}`}
-            >
+    <motion.div {...anim} {...hoverLift}
+      className={`rounded-[2.5rem] p-8 bg-slate-950 flex flex-col h-full transition-all duration-300 shadow-xl hover:shadow-saas-orange/10 ${
+        plan.isPopular ? 'scale-105 z-10' : 'scale-95'
+      } ${plan.color}`}
+    >
               {plan.isPopular && (
                 <div className="bg-saas-orange text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase mb-4 self-start tracking-widest">
                   Recomendado
@@ -92,6 +47,24 @@ const PricingSection = () => {
                 {plan.ctaText}
               </Button>
             </motion.div>
+  );
+};
+
+const PricingSection = () => {
+  return (
+    <section id="tarifas" className="bg-white py-16 md:py-24 overflow-hidden">
+      <div className="section-container relative">
+        <div className="text-center max-w-4xl mx-auto mb-16 relative z-10">
+          <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter text-saas-teal leading-none">
+            Nuestros <span className="text-saas-orange">Planes</span>
+          </h2>
+          <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">
+            Tarifas transparentes diseñadas para escalar junto a tu flota.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 items-stretch px-4 max-w-6xl mx-auto">
+          {plans.map((plan: Plan, index: number) => (
+            <PlanCard key={index} plan={plan} index={index} />
           ))}
         </div>
       </div>
