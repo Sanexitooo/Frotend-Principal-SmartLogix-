@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
+import Header from "@/components/layout/Header";
+import AuthModal from "@/components/auth/AuthModal";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import AboutSection from "@/components/AboutSection";
@@ -11,13 +12,13 @@ import Footer from "@/components/Footer";
 const Index = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const handleOpenLogin = () => {
-    setIsLoginOpen(true);
-  };
+  const handleOpenLogin = () => setIsLoginOpen(true);
+  const handleCloseLogin = () => setIsLoginOpen(false);
 
   return (
     <div className="min-h-screen bg-white font-montserrat">
-      <Navbar onOpenLogin={handleOpenLogin} />
+      <Header onLoginClick={handleOpenLogin} />
+      <AuthModal isOpen={isLoginOpen} onClose={handleCloseLogin} />
 
       <main>
         <HeroSection onOpenLogin={handleOpenLogin} />
