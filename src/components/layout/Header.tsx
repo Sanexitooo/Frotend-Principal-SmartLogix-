@@ -17,6 +17,7 @@
 import { useState, useEffect } from "react";
 import { User, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useScrollPosition } from "@/hooks/use-scroll-position";
 
 const navItems = [
   { name: "Inicio", href: "#" },
@@ -30,20 +31,13 @@ interface HeaderProps {
 }
 
 const Header = ({ onLoginClick }: HeaderProps) => {
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useScrollPosition(20);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
   // Marca como montado después del primer render (necesario para next-themes)
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Detecta scroll para cambiar el estilo del header
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");

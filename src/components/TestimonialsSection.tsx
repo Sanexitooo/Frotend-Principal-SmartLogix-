@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { testimonials } from "@/data/testimonials";
@@ -9,15 +9,13 @@ const TestimonialsSection = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const testimonialsList = testimonials as Testimonial[];
 
-  const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const next = useCallback(() => setCurrentIndex((prev) => (prev + 1) % testimonials.length), []);
+  const prev = useCallback(() => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length), []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      next();
-    }, 5000);
+    const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [next]);
 
   return (
     <section className="py-24 bg-saas-teal relative overflow-hidden">
@@ -38,12 +36,14 @@ const TestimonialsSection = () => {
           <div className="flex gap-3">
             <button 
               onClick={prev} 
+              aria-label="Anterior testimonio"
               className="p-4 rounded-xl border-2 border-white/10 text-white hover:bg-saas-orange hover:border-saas-orange transition-all duration-300 group"
             >
               <ChevronLeft className="group-hover:scale-110 transition-transform" />
             </button>
             <button 
               onClick={next} 
+              aria-label="Siguiente testimonio"
               className="p-4 rounded-xl border-2 border-white/10 text-white hover:bg-saas-orange hover:border-saas-orange transition-all duration-300 group"
             >
               <ChevronRight className="group-hover:scale-110 transition-transform" />
