@@ -37,6 +37,9 @@ lerna-debug.log*
 # Kilo
 .kilo/
 
+# Qodo
+.qodo/
+
 # Misc
 .cache
 .temp
