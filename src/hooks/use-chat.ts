@@ -18,55 +18,45 @@
  */
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { chatService } from "@/services/openrouter-chat.service";
 // Para usar Gemini en vez de OpenRouter, cambiar a:
 // import { chatService } from "@/services/gemini-chat.service";
+import { chatService } from "@/services/gemini-chat.service";
 import type { ChatMessage } from "@/types/ai";
 
-/** Mensaje de bienvenida que el bot muestra al abrir el chat */
-const SALUDO_INICIAL =
-  "¡Hola! Soy SmartBot, mucho gusto. 👋 ¿En qué puedo ayudarte con tu logística hoy?";
+const SALUDO_INICIAL = "¡Hola! Soy SmartBot, mucho gusto. 👋 ¿En qué puedo ayudarte con tu logística hoy?";
 
 export function useChat() {
-  /* --- Estado del widget --- */
   const [isOpen, setIsOpen] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  /* --- Historial de la conversación --- */
   const [historial, setHistorial] = useState<ChatMessage[]>([
     { text: SALUDO_INICIAL, isBot: true },
   ]);
 
-  /* --- Auto-scroll al último mensaje --- */
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [historial, isLoading]);
 
-  /* --- Cerrar el chat y resetear el historial --- */
   const handleCerrar = useCallback(() => {
     setIsOpen(false);
     setIsMaximized(false);
     setHistorial([{ text: SALUDO_INICIAL, isBot: true }]);
   }, []);
 
-  /* --- Enviar mensaje al servicio de IA --- */
   const handleEnviar = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       if (!mensaje.trim() || isLoading) return;
 
-      // Agrega el mensaje del usuario al historial
       const mensajeUsuario = mensaje;
       setHistorial((prev) => [...prev, { text: mensajeUsuario, isBot: false }]);
       setMensaje("");
       setIsLoading(true);
 
       try {
-        // No envía el saludo inicial como contexto (solo confunde al modelo)
         const filteredHistory = historial.filter(
           (m) => m.text !== SALUDO_INICIAL
         );
@@ -76,8 +66,7 @@ export function useChat() {
         );
         setHistorial((prev) => [...prev, { text: respuestaBot, isBot: true }]);
       } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Problema desconocido";
+        const message = error instanceof Error ? error.message : "Problema desconocido";
         console.error("Error con servicio de chat:", error);
         setHistorial((prev) => [
           ...prev,

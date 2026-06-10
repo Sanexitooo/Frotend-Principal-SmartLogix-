@@ -17,6 +17,7 @@
  */
 
 import { motion } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 import type { ChatMessage } from "@/types/ai";
 
 interface ChatBubbleProps {
@@ -38,7 +39,12 @@ const ChatBubble = ({ message }: ChatBubbleProps) => {
             : "bg-saas-orangeVivid text-white rounded-tr-none font-medium"
         }`}
       >
-        {message.text}
+        {/* El div contenedor maneja los estilos para que TypeScript no reclame por las propiedades internas */}
+        <div className="whitespace-pre-wrap list-disc list-inside">
+          <ReactMarkdown>
+            {message.text}
+          </ReactMarkdown>
+        </div>
       </div>
     </motion.div>
   );
