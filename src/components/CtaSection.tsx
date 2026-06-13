@@ -1,0 +1,48 @@
+import { Button } from "@/components/ui/button";
+import { useFadeInView } from "@/hooks/use-fade-in-view";
+import { imgOnError } from "@/lib/img";
+
+const CtaSection = () => {
+  const ref = useFadeInView({ once: true });
+
+  return (
+    <section className="bg-saas-darkGray py-16 md:py-20">
+      <div className="section-container">
+        <div
+          ref={ref}
+          className="bg-gradient-to-r from-saas-orange/20 to-amber-600/20 rounded-2xl p-8 md:p-12 relative overflow-hidden border border-white/5 opacity-0 translate-y-10 transition-all duration-1000 ease-out"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-saas-orange opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-600 opacity-10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="md:w-2/3 text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                Agende su demostración gratuita de SmartLogix
+              </h2>
+              <p className="text-gray-300 mb-6 max-w-xl leading-relaxed">
+                Aclara todas tus dudas y descubre cómo nuestra plataforma potencia tu negocio. ¡Te aseguramos resultados sorprendentes!
+              </p>
+              <a href="#nosotros">
+                <Button className="bg-saas-orange hover:bg-orange-600 text-white font-bold py-6 px-10 rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95">
+                  Acerca de Nosotros
+                </Button>
+              </a>
+            </div>
+
+            <div className="md:w-1/3">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyYMZdhczIzyQN5oSp3Whz_1iao2IMppulTg&s"
+                alt="Alianza estratégica"
+                className="rounded-xl w-full shadow-2xl object-cover opacity-90 border border-white/10"
+                onError={imgOnError}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CtaSection;
