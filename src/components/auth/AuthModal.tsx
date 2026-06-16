@@ -15,6 +15,9 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const {
     isLoginMode,
     formData,
+    error,
+    successMsg,
+    loading,
     handleInputChange,
     handleSubmit,
     toggleMode,
@@ -81,13 +84,20 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                 </div>
               )}
 
+              {error && (
+                <p className="text-red-500 text-sm font-medium text-center">{error}</p>
+              )}
+              {successMsg && (
+                <p className="text-green-600 text-sm font-medium text-center">{successMsg}</p>
+              )}
               <button
                 type="submit"
-                className="group relative w-full bg-saas-teal text-white py-4 rounded-2xl font-black overflow-hidden transition-all shadow-xl shadow-saas-teal/20 mt-4 active:scale-95"
+                disabled={loading}
+                className="group relative w-full bg-saas-teal text-white py-4 rounded-2xl font-black overflow-hidden transition-all shadow-xl shadow-saas-teal/20 mt-4 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 <span className="relative z-10">
-                  {isLoginMode ? "Entrar al Dashboard" : "Registrar Empresa"}
+                  {loading ? "Ingresando..." : isLoginMode ? "Entrar al Dashboard" : "Registrar Empresa"}
                 </span>
               </button>
             </form>
